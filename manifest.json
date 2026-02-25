@@ -2,11 +2,16 @@
   "manifest_version": 3,
   "name": "Tabs New Tab",
   "description": "Custom new tab page with search engine switcher, background upload, theme toggle, and settings panel.",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "geolocation"
+  ],
+  "host_permissions": [
+    "https://api.open-meteo.com/*",
+    "https://api.bigdatacloud.net/*"
   ]
 }

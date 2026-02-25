@@ -51,6 +51,69 @@ body.theme-dark {
   gap: 10px;
 }
 
+.status-chip {
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border-light);
+  background: var(--glass-light);
+  backdrop-filter: blur(10px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.weather-summary-trigger {
+  width: 108px;
+  min-width: 108px;
+  height: 44px;
+  min-height: 44px;
+  font-variant-numeric: tabular-nums;
+  display: grid;
+  gap: 1px;
+  justify-items: center;
+  padding: 4px 8px;
+  border: 1px solid var(--border-light);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.summary-time-line {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.summary-weather-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1;
+}
+
+.weather-summary-trigger:hover {
+  background: rgba(31, 111, 235, 0.12);
+}
+
+body.theme-dark .weather-summary-trigger:hover {
+  background: rgba(237, 243, 251, 0.18);
+}
+
+.weather-icon {
+  font-size: 16px;
+}
+
+.weather-text {
+  max-width: 78px;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .content {
   min-height: calc(100vh - 84px);
   display: flex;
@@ -168,7 +231,8 @@ body.theme-dark .search-btn:hover {
 
 body.theme-dark .icon-btn,
 body.theme-dark .secondary-btn,
-body.theme-dark .settings-select {
+body.theme-dark .settings-select,
+body.theme-dark .status-chip {
   border-color: var(--border-dark);
   background: var(--glass-dark);
 }
@@ -449,6 +513,185 @@ body.theme-dark .settings-content {
 
 #backgroundInput { display: none; }
 
+.weather-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+
+.weather-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 12, 18, 0.34);
+  backdrop-filter: blur(6px);
+}
+
+.weather-modal-panel {
+  position: relative;
+  width: min(860px, 92vw);
+  margin: 56px auto;
+  max-height: calc(100vh - 112px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 24px;
+  border: 1px solid var(--border-light);
+  background: var(--panel-light);
+  backdrop-filter: blur(12px) saturate(1.08);
+  box-shadow: 0 20px 44px rgba(8, 15, 27, 0.28);
+  padding: 22px;
+  display: grid;
+  gap: 14px;
+  will-change: scroll-position;
+  contain: layout paint style;
+  transform: translateZ(0);
+}
+
+body.theme-dark .weather-modal-panel {
+  border-color: var(--border-dark);
+  background: var(--panel-dark);
+}
+
+.weather-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.weather-modal-title,
+.weather-modal-date,
+.weather-modal-summary {
+  text-align: center;
+  margin: 0;
+}
+
+.weather-modal-title {
+  font-size: 16px;
+}
+
+.weather-modal-date {
+  opacity: 0.82;
+  font-size: 14px;
+}
+
+.weather-modal-icon {
+  text-align: center;
+  font-size: 48px;
+  line-height: 1;
+}
+
+.weather-modal-location {
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.86;
+}
+
+.weather-modal-summary {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.weather-section {
+  border: 1px solid var(--border-light);
+  background: var(--glass-light);
+  border-radius: 18px;
+  padding: 14px;
+}
+
+body.theme-dark .weather-section {
+  border-color: var(--border-dark);
+  background: var(--glass-dark);
+}
+
+.weather-section h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.weather-forecast-list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.weather-day-card {
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 10px 6px;
+  text-align: center;
+  display: grid;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.32);
+}
+
+body.theme-dark .weather-day-card {
+  border-color: var(--border-dark);
+  background: rgba(9, 14, 22, 0.28);
+}
+
+.weather-day-name {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.weather-day-icon {
+  font-size: 20px;
+}
+
+.weather-day-temp {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.weather-chart {
+  width: 100%;
+  height: 220px;
+}
+
+.chart-grid-line {
+  stroke: rgba(120, 138, 162, 0.26);
+  stroke-width: 1;
+}
+
+.chart-line {
+  fill: none;
+  stroke-width: 2.6;
+}
+
+.chart-line-high {
+  stroke: #ff8a3d;
+}
+
+.chart-line-low {
+  stroke: #4ea0ff;
+}
+
+.chart-dot {
+  stroke: rgba(255, 255, 255, 0.72);
+  stroke-width: 1;
+}
+
+.chart-dot-high {
+  fill: #ff8a3d;
+}
+
+.chart-dot-low {
+  fill: #4ea0ff;
+}
+
+.chart-day-label {
+  font-size: 10px;
+  fill: currentColor;
+  opacity: 0.9;
+}
+
+.chart-legend-high,
+.chart-legend-low {
+  font-size: 11px;
+  fill: currentColor;
+  opacity: 0.88;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -470,6 +713,39 @@ body.theme-dark .settings-content {
 }
 
 @media (max-width: 640px) {
+  .topbar {
+    padding: 14px 14px;
+  }
+
+  .topbar-actions {
+    gap: 8px;
+  }
+
+  .weather-summary-trigger {
+    width: 96px;
+    min-width: 96px;
+    padding: 4px 6px;
+  }
+
+  .summary-time-line {
+    font-size: 11px;
+  }
+
+  .weather-text {
+    max-width: 66px;
+    font-size: 10px;
+  }
+
+  .weather-modal-panel {
+    margin: 24px auto;
+    max-height: calc(100vh - 48px);
+    padding: 16px;
+  }
+
+  .weather-forecast-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .settings-layout {
     grid-template-columns: 1fr;
   }
@@ -486,8 +762,46 @@ body.theme-dark .settings-content {
 }
 
 @media (max-width: 560px) {
+  .weather-summary-trigger {
+    width: 88px;
+    min-width: 88px;
+    padding: 4px 6px;
+  }
+
   .search-box { grid-template-columns: 1fr; }
   .search-combined { grid-template-columns: 106px 1px 1fr 42px; }
 }
 
 
+.engine-custom {
+  background: #6b7280;
+}
+
+
+
+
+.engine-list-picker {
+  position: relative;
+}
+
+.engine-list-picker-btn {
+  width: 100%;
+  height: 40px;
+  border-radius: 14px;
+  border: 1px solid var(--border-light);
+  background: var(--glass-light);
+  color: inherit;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+body.theme-dark .engine-list-picker-btn {
+  border-color: var(--border-dark);
+  background: var(--glass-dark);
+}
+
+#engineListPickerMenu {
+  width: 100%;
+}

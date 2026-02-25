@@ -11,5 +11,6 @@ export const DEFAULT_STATE = {
   backgroundDataUrl: "",
   language: "zh-CN",
   settingsWidth: 420,
-  settingsTab: "personalization"
+  settingsTab: "personalization",
+  customEngines: []
 };
